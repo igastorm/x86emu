@@ -4,6 +4,9 @@
 #include <iostream>
 using std::cout;
 
+// 1MB
+constexpr size_t MEMORY_SIZE = 1024 * 1024;
+
 class Register {
 protected:
   // Registers
@@ -37,6 +40,7 @@ Emulator::Emulator(size_t size, uint32_t eip, uint32_t esp)
 Emulator::~Emulator(void) { delete[] this->memory; }
 
 int main(int argc, char **argv) {
+  Emulator emulator(MEMORY_SIZE, 0x0000, 0x7c00);
   cout << "Hello, x86emu!!\n";
   return 0;
 }
