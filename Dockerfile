@@ -19,10 +19,7 @@ REPO_URL="https://github.com/igastorm/x86emu.git"\n\
 TARGET_DIR="/home/$USER_NAME/x86emu"\n\
 \n\
 if [ ! -d "$TARGET_DIR" ]; then\n\
-    echo "Cloning x86emu repository..."\n\
     sudo -u "$USER_NAME" git clone "$REPO_URL" "$TARGET_DIR"\n\
-else\n\
-    echo "x86emu repository already exists. Skipping clone."\n\
 fi\n\
 ' > /usr/local/bin/custom-setup.sh && \
     chmod +x /usr/local/bin/custom-setup.sh
