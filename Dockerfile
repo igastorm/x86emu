@@ -13,7 +13,8 @@ RUN rm -f /var/log /run && \
   ln -s /tmp/log /var/log && \
   ln -s /tmp/run /run
 
-RUN echo '#!/bin/bash\n\
+RUN RUN sed -i 's|--disable-workspace-trust|--disable-workspace-trust /home/\$USER_NAME/x86emu|' /usr/local/etc/supervisord-template.conf && \
+echo '#!/bin/bash\n\
 set -e\n\
 REPO_URL="https://github.com/igastorm/x86emu.git"\n\
 TARGET_DIR="/home/$USER_NAME/x86emu"\n\
