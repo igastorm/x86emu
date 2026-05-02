@@ -1,4 +1,4 @@
-FROM ghcr.io/igastorm/vdide:latest@sha256:fca3dd3c7972d3f5f4d8ff9eb47a90a6e457088e1b8fd7bc2711462d0f71bf6f
+FROM ghcr.io/igastorm/vdide:latest@sha256:f668f8fe4f97b8108ccbba49f42a47be64f8c7224eb90118091a27942fff8f6b
 
 RUN rm -f /var/log /run && \
   mkdir -p /var/log/apt /run && \
