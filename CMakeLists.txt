@@ -6,9 +6,27 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-add_compile_options(-Wall)
-add_compile_options(-stdlib=libc++ -fno-exceptions)
-add_link_options(-stdlib=libc++)
+include(CheckCXXCompilerFlag)
+
+set(USING_CLANG FALSE)
+if(CMAKE_CXX_COMPILER_ID MATCHES "Clang|AppleClang")
+  set(USING_CLANG TRUE)
+endif()
+
+find_program(LLD_EXECUTABLE lld)
+
+check_cxx_compiler_flag("-stdlib=libc++" COMPILER_SUPPORTS_LIBCPP)
+check_cxx_compiler_flag("-fuse-ld=lld" COMPILER_SUPPORTS_FUSE_LD)
+
+if(USING_CLANG AND LLD_EXECUTABLE AND COMPILER_SUPPORTS_LIBCPP AND COMPILER_SUPPORTS_FUSE_LD)
+  message(STATUS "Using clang + lld + libc++ specific options")
+  add_compile_options(-Wall)
+  add_compile_options(-stdlib=libc++ -fno-exceptions)
+  add_link_options(-fuse-ld=lld)
+  add_link_options(-stdlib=libc++)
+else()
+  message(STATUS "Not using clang+lld+libc++ options (clang: ${USING_CLANG}, lld: ${LLD_EXECUTABLE}, supports_libc++: ${COMPILER_SUPPORTS_LIBCPP}, supports_fuse_ld: ${COMPILER_SUPPORTS_FUSE_LD})")
+endif()
 
 set(SRC_DIR "${CMAKE_SOURCE_DIR}/src")
 
